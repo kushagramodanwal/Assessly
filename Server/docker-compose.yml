@@ -1,6 +1,3 @@
-# 🧩 The `version` key is now optional — Docker Compose warns if it's included.
-# You can remove it or keep it for clarity.
-version: "3.8"
 
 services:
   auth-service:
@@ -9,9 +6,9 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - PORT=5001
-      - MONGO_URI=mongodb+srv://tanejaggarvit_db_user:garvit@cluster0.ytpiruw.mongodb.net/authdb?retryWrites=true&w=majority
-      - JWT_SECRET=JWT_SECRET
+      PORT: "5001"
+      MONGO_URI: ${AUTH_MONGO_URI:?AUTH_MONGO_URI is required}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
     volumes:
       - ./proto:/proto
 
@@ -21,8 +18,8 @@ services:
     ports:
       - "5002:5002"
     environment:
-      - PORT=5002
-      - MONGO_URI=mongodb+srv://tanejaggarvit_db_user:garvit@cluster0.ytpiruw.mongodb.net/jobdb?retryWrites=true&w=majority
+      PORT: "5002"
+      MONGO_URI: ${JOB_MONGO_URI:?JOB_MONGO_URI is required}
     volumes:
       - ./proto:/proto
 
@@ -32,8 +29,8 @@ services:
     ports:
       - "5003:5003"
     environment:
-      - PORT=5003
-      - MONGO_URI=mongodb+srv://tanejaggarvit_db_user:garvit@cluster0.ytpiruw.mongodb.net/assessmentdb?retryWrites=true&w=majority
+      PORT: "5003"
+      MONGO_URI: ${ASSESSMENT_MONGO_URI:?ASSESSMENT_MONGO_URI is required}
     volumes:
       - ./proto:/proto
 
@@ -44,8 +41,8 @@ services:
       - "5004:5004"
       - "50051:50051"
     environment:
-      - PORT=5004
-      - MONGO_URI=mongodb+srv://tanejaggarvit_db_user:garvit@cluster0.ytpiruw.mongodb.net/assessmentdb?retryWrites=true&w=majority
+      PORT: "5004"
+      MONGO_URI: ${ASSESSMENT_MONGO_URI:?ASSESSMENT_MONGO_URI is required}
     volumes:
       - ./proto:/proto
 
@@ -56,8 +53,8 @@ services:
       - "5005:5005"
       - "50052:50052"
     environment:
-      - PORT=5005
-      - MONGO_URI=mongodb+srv://tanejaggarvit_db_user:garvit@cluster0.ytpiruw.mongodb.net/scoredb?retryWrites=true&w=majority
+      PORT: "5005"
+      MONGO_URI: ${SCORE_MONGO_URI:?SCORE_MONGO_URI is required}
     volumes:
       - ./proto:/proto
 
@@ -68,8 +65,8 @@ services:
       - "4005:4005"
       - "50053:50053"
     environment:
-      - PORT=4005
-      - MONGO_URI=mongodb+srv://tanejaggarvit_db_user:garvit@cluster0.ytpiruw.mongodb.net/notificationdb?retryWrites=true&w=majority
+      PORT: "4005"
+      MONGO_URI: ${NOTIFICATION_MONGO_URI:?NOTIFICATION_MONGO_URI is required}
     volumes:
       - ./proto:/proto
 
@@ -86,13 +83,13 @@ services:
       - score-service
       - notification-service
     environment:
-      - PORT=4000
-      - JWT_SECRET=JWT_SECRET
-      - AUTH_URL=http://auth-service:5001
-      - JOB_URL=http://job-service:5002
-      - ASSESSMENT_URL=http://assessment-service:5003
-      - SCORE_URL=http://score-service:5005
-      - NOTIFICATION_URL=http://notification-service:4005
-      - EVALUATOR_GRPC_URL=evaluator-service:50051
+      PORT: "4000"
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      AUTH_URL: http://auth-service:5001
+      JOB_URL: http://job-service:5002
+      ASSESSMENT_URL: http://assessment-service:5003
+      SCORE_URL: http://score-service:5005
+      NOTIFICATION_URL: http://notification-service:4005
+      EVALUATOR_GRPC_URL: evaluator-service:50051
     volumes:
       - ./proto:/proto
